@@ -5,20 +5,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "books")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Book {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 	
-	@Column(name="author_id")
-	private int authorId;
+	//@Column(name="author_id")
+	//private int authorId;
 	
 	@Column(name="name")
 	private String name;
@@ -29,16 +35,11 @@ public class Book {
 	@Column(name="category")
 	private String category;
 	
-	public Book() {}
-
-	public Book(int id, int authorId, String name, String isbn, String category) {
-		super();
-		this.id = id;
-		this.authorId = authorId;
-		this.name = name;
-		this.isbn = isbn;
-		this.category = category;
-	}
+	@ManyToOne
+    @JoinColumn(name="author_id")
+	private Author author;
+	
+	
 	
 	
 	

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.BookLib.business.abstracts.AuthorService;
 import com.example.BookLib.core.results.DataResult;
+import com.example.BookLib.core.results.ErrorResult;
 import com.example.BookLib.core.results.Result;
 import com.example.BookLib.core.results.SuccessDataResult;
 import com.example.BookLib.core.results.SuccessResult;
@@ -32,8 +33,13 @@ public class AuthorManager implements AuthorService {
 	}
 	@Override
 	public Result add(Author author) {
-		this.authorDao.save(author);
-		return new SuccessResult("Author added");
+		if(authorDao.existsByName(author.getName())) {
+			return new ErrorResult("Author is already exists");
+		}else {
+			this.authorDao.save(author);
+			return new SuccessResult("Author added");
+		}
 	}
+	
 
 }

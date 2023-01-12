@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.BookLib.business.abstracts.BookService;
 import com.example.BookLib.core.results.DataResult;
+import com.example.BookLib.core.results.ErrorResult;
 import com.example.BookLib.core.results.Result;
 import com.example.BookLib.core.results.SuccessDataResult;
 import com.example.BookLib.core.results.SuccessResult;
 import com.example.BookLib.dataAccess.abstacts.BookDao;
+
 import com.example.BookLib.entities.concretes.Book;
 
 @Service
@@ -34,8 +36,24 @@ public class BookManager implements BookService {
 
 	@Override
 	public Result add(Book book) {
-		this.bookDao.save(book);
-		return new SuccessResult("Book added");
+		if(bookDao.existsByName(book.getName())) {
+			return new ErrorResult("Book is already exists");
+		}else {
+			this.bookDao.save(book);
+			return new SuccessResult("Book added");
+		}
+		
 	}
+	
+	@Override
+	public DataResult<List<Book>> findBookBySearchCriteria(String searchText) {
+		
+		return new SuccessDataResult<List<Book>>(
+				this.bookDao.findBookBySearchCriteria(searchText)
+				,"Data listed");
+	}
+	
+
+	
 
 }
