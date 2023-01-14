@@ -16,6 +16,9 @@ import com.example.BookLib.core.results.DataResult;
 import com.example.BookLib.core.results.Result;
 import com.example.BookLib.entities.concretes.Book;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/books")
 @CrossOrigin
@@ -30,17 +33,20 @@ public class BooksController {
 	
 	@GetMapping("/getAll")
 	public DataResult<List<Book>> getAll(){
+		log.info("get all method called!");
 		return this.bookService.getAll();
 	}
 	
 	@PostMapping("/addBook")
 	public Result add(@RequestBody Book book) {
+		log.info("add book method called!");
 		return this.bookService.add(book);
 		
 	}
 	
 	@GetMapping("/search")
 	public DataResult<List<Book>> getByNameContains(@RequestParam String searchText){
+		log.info("search method called!");
 		return this.bookService.findBookBySearchCriteria(searchText);
 		
 	}
